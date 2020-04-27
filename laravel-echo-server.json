@@ -1,10 +1,10 @@
 {
-	"authHost": "http://chat-dev",
+	"authHost": "http://chat-dev/",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
-			"appId": "1111e0a0c651516f",
-			"key": "d561716b1bff24664cf5d829b043ab7d"
+			"appId": "a5e1e74ef59a7e9d",
+			"key": "2c82a172255376fcb9fca114f93636df"
 		}
 	],
 	"database": "redis",
@@ -14,7 +14,7 @@
 			"databasePath": "/database/laravel-echo-server.sqlite"
 		}
 	},
-	"devMode": true,
+	"devMode": false,
 	"host": null,
 	"port": "6001",
 	"protocol": "http",

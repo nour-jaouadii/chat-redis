@@ -2,7 +2,6 @@
 
 require('./bootstrap');
 
-
 import Echo from "laravel-echo"
 
 window.io = require('socket.io-client');
@@ -37,7 +36,7 @@ window.Echo.join('online')
             } 
             
              $('#online-users').append(` <li id="user-${user.id}" class="list-group-item">
-             <span class="icon icon-circle text-success">c</span>
+             
              <i class="fas fa-circle text-succes" style="color:green;" ></i>           
 
              ${user.name} </li>`);
@@ -49,7 +48,7 @@ window.Echo.join('online')
         onlineUsersLength++;
         $('#no-online-users').css('display', 'none');
         $('#online-users').append(` <li id="user-${user.id}" class="list-group-item">
-        <span class="icon icon-circle text-success">c</span>
+        
         <i class="fas fa-circle text-succes" style="color:green;" ></i> 
         ${user.name} </li>`);
 
@@ -73,6 +72,19 @@ window.Echo.join('online')
            e.preventDefault();
            let body = $(this).val(); // console.log(body);
            let url = $(this).data('url'); // console.log(url);
+           let userName = $('meta[name=user-name]').attr('content');
+
+           $(this).val('');
+           
+           $('#chat').append(`
+            <div class="mt-4 w-50 text-white p-3 rounded  float-right bg-primary">
+            <p>${ userName  } </p>
+            <p>${body} </p>
+            </div>
+            <div class="clearfix"></div>
+          `)
+           
+           
            let data ={
                '_token': $('meta[name=csrf-token]').attr('content'),
                body 
@@ -85,6 +97,22 @@ window.Echo.join('online')
                 data: data,
               
                }) //end of ajax
-
+            
         }
     });// end key press
+    
+    // listen MessageDelivred
+     
+   
+window.Echo.channel('chat-groupp')
+    .listen('.App\Events\\chat-groupp\\MessageDelivred', (e) => {
+      console.log(e.message.body);
+      $('#chat').append(`
+            <div class="mt-4 w-50 text-white p-3 rounded  float-left bg-warning">
+                <p> ${e.message.user.name} </p>     
+                <p>${e.message.body} </p>
+
+            </div>
+            <div class="clearfix"></div>
+        `)
+    });

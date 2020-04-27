@@ -45787,13 +45787,13 @@ window.Echo.join('online').here(function (users) {
       return;
     }
 
-    $('#online-users').append(" <li id=\"user-".concat(user.id, "\" class=\"list-group-item\">\n             <span class=\"icon icon-circle text-success\">c</span>\n             <i class=\"fas fa-circle text-succes\" style=\"color:green;\" ></i>           \n\n             ").concat(user.name, " </li>"));
+    $('#online-users').append(" <li id=\"user-".concat(user.id, "\" class=\"list-group-item\">\n             \n             <i class=\"fas fa-circle text-succes\" style=\"color:green;\" ></i>           \n\n             ").concat(user.name, " </li>"));
   }); // end of forEach
 }) // end here
 .joining(function (user) {
   onlineUsersLength++;
   $('#no-online-users').css('display', 'none');
-  $('#online-users').append(" <li id=\"user-".concat(user.id, "\" class=\"list-group-item\">\n        <span class=\"icon icon-circle text-success\">c</span>\n        <i class=\"fas fa-circle text-succes\" style=\"color:green;\" ></i> \n        ").concat(user.name, " </li>"));
+  $('#online-users').append(" <li id=\"user-".concat(user.id, "\" class=\"list-group-item\">\n        \n        <i class=\"fas fa-circle text-succes\" style=\"color:green;\" ></i> \n        ").concat(user.name, " </li>"));
 }) //end joining
 .leaving(function (user) {
   onlineUsersLength--;
@@ -45814,6 +45814,9 @@ $('#chat-text').keypress(function (e) {
 
     var url = $(this).data('url'); // console.log(url);
 
+    var userName = $('meta[name=user-name]').attr('content');
+    $(this).val('');
+    $('#chat').append("\n            <div class=\"mt-4 w-50 text-white p-3 rounded  float-right bg-primary\">\n            <p>".concat(userName, " </p>\n            <p>").concat(body, " </p>\n            </div>\n            <div class=\"clearfix\"></div>\n          "));
     var data = {
       '_token': $('meta[name=csrf-token]').attr('content'),
       body: body
@@ -45826,6 +45829,12 @@ $('#chat-text').keypress(function (e) {
     }); //end of ajax
   }
 }); // end key press
+// listen MessageDelivred
+
+window.Echo.channel('chat-groupp').listen('.App\Events\\chat-groupp\\MessageDelivred', function (e) {
+  console.log(e.message.body);
+  $('#chat').append("\n            <div class=\"mt-4 w-50 text-white p-3 rounded  float-left bg-warning\">\n                <p> ".concat(e.message.user.name, " </p>     \n                <p>").concat(e.message.body, " </p>\n\n            </div>\n            <div class=\"clearfix\"></div>\n        "));
+});
 
 /***/ }),
 

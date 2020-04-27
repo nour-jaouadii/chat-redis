@@ -9,6 +9,8 @@
 
      <!-- user-id  -->
      <meta name="user-id" content="{{ auth()->user()->id ?? ''}}">
+     <meta name="user-name" content="{{ auth()->user()->name ?? ''}}">
+
      {{-- {{ auth()->user()->id ? auth()->user()->id : ''}} --}}
       
     <title>{{ config('app.name', 'Laravel') }}</title>
